@@ -7,7 +7,7 @@
  * in the user manual at https://docs.gradle.org/8.1.1/userguide/multi_project_builds.html
  */
 
-rootProject.name = "Playground"
+rootProject.name = "KotlinJS-Resources"
 
 pluginManagement {
 	repositories {
@@ -26,6 +26,7 @@ plugins {
 }
 
 include(
-	"app",
-	"core",
+	"shared",
+	"producer",
+	"consumer",
 )
