@@ -1,15 +1,18 @@
-# Playground: Gradle
+# Kotlin/JS Resources Plugin
 
-<!-- When using the Playground to bootstrap a project, replace this by your project description. -->
-This a template to easily bootstrap your projects.
+In the JVM ecosystem, any file created in `src/main/resources/` is included in the binary output of the project, and is thus available to any other project depending on the one containing the files.
 
-> This project is part of the OpenSavvy Playground.
-> To learn more, visit [this page](docs/playground/README.md).
+When doing Kotlin Multiplatform development, this behavior is sadly not yet implemented for the JS platform. The files are present in the `klib` file, but they are mixed with other files, which makes them hard to extract. The Gradle plugin also doesn't generate `klib` files for projects in the same build, which makes extracting them impossible for local projects.
+
+This repository exposes two Gradle plugins:
+- `dev.opensavvy.resources.producer`,
+- `dev.opensavvy.resources.consumer`.
+
+When creating a library that must expose its resources to users, apply the `producer` plugin. When creating a project that must access resources created by its dependencies, apply the `consumer` plugin. Both plugins can be applied to a single project, if you need to consume and expose resources.
 
 ## License
 
-<!-- Mentions under which license you are publishing the project. -->
-<!-- Add the full text to the LICENSE file. -->
+This project is licensed under the [Apache 2.0 license](LICENSE).
 
 ## Contributing
 
