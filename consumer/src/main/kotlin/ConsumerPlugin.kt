@@ -6,6 +6,8 @@ import org.gradle.api.Project
 @Suppress("unused")
 class ConsumerPlugin : Plugin<Project> {
 	override fun apply(target: Project) {
-		// TODO get the artifacts
+		target.pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
+			target.initializeForKotlin()
+		}
 	}
 }
