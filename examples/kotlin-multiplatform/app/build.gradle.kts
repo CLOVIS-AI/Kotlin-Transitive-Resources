@@ -17,3 +17,7 @@ kotlin {
 		implementation(project(":core"))
 	}
 }
+
+dependencies {
+	transitiveJsResources(project(":core"))
+}
