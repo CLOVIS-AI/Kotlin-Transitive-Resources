@@ -1,5 +1,10 @@
 plugins {
 	alias(opensavvyConventions.plugins.plugin)
+	alias(opensavvyConventions.plugins.kotlin.abstractLibrary)
+}
+
+java {
+	withSourcesJar()
 }
 
 dependencies {
@@ -15,5 +20,16 @@ gradlePlugin {
 			id = "dev.opensavvy.resources.consumer"
 			implementationClass = "opensavvy.gradle.resources.consumer.ConsumerPlugin"
 		}
+	}
+}
+
+library {
+	name.set("KJS Resources Consumer")
+	description.set("Gradle plugin to consume Kotlin/JS resources published by other projects")
+	homeUrl.set("https://gitlab.com/opensavvy/automation/kotlin-js-resources")
+
+	license.set {
+		name.set("Apache 2.0")
+		url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
 	}
 }
