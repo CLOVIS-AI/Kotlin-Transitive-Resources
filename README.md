@@ -10,6 +10,8 @@ This repository exposes two Gradle plugins:
 
 When creating a library that must expose its resources to users, apply the `producer` plugin. When creating a project that must access resources created by its dependencies, apply the `consumer` plugin. Both plugins can be applied to a single project, if you need to consume and expose resources.
 
+To discover how to configure the plugins, see [the documentation](https://opensavvy.gitlab.io/automation/kotlin-js-resources/api-docs/).
+
 ## License
 
 This project is licensed under the [Apache 2.0 license](LICENSE).

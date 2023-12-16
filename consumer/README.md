@@ -1,0 +1,80 @@
+# Module KJS Resources Consumer
+
+Extracts Kotlin/JS resources from other projects and injects them into the current project's resources.
+
+<a href="https://search.maven.org/search?q=dev.opensavvy.resources"><img src="https://img.shields.io/maven-central/v/dev.opensavvy.gradle.kotlin.resources/consumer.svg?label=Maven%20Central"></a>
+
+> For a technical explanation of how this plugin works, see the Shared module.
+
+## Applying the plugin
+
+Currently, this plugin requires the [Kotlin Multiplatform plugin](https://kotlinlang.org/docs/multiplatform-dsl-reference.html).
+Otherwise, it does nothing.
+
+Because this plugin only expose Kotlin/JS resources (other platforms' artifacts are automatically exposed by the Kotlin plugin), you will need to declare a JS target for this plugin to do anything.
+
+```kotlin
+// build.gradle.kts
+plugins {
+	kotlin("multiplatform") version "<add the version here>"
+	id("dev.opensavvy.resources.consumer") version "<add the version here>"
+}
+
+kotlin {
+	js {
+		// …
+	}
+}
+```
+
+Currently, the plugin does not extract the resource dependencies automatically from your other dependencies: you should explicitly declare from which Maven coordinates you want to extract dependencies.
+
+## Declare dependencies
+
+For example, to extract resources from another project called `lib`:
+
+```kotlin
+kotlin {
+	js {
+		// …
+	}
+
+	sourceSets.jsMain.dependencies {
+		// this is a regular code dependency
+		implementation(project(":lib"))
+	}
+}
+
+dependencies {
+	// declare a dependency on the resources
+	transitiveJsResources(project(":lib"))
+}
+```
+
+To declare a dependency on an external library, use the same mechanism:
+
+```kotlin
+kotlin {
+	js {
+		// …
+	}
+
+	sourceSets.jsMain.dependencies {
+		// this is a regular code dependency
+		implementation("foo:bar:1.0")
+	}
+}
+
+dependencies {
+	// declare a dependency on the resources
+	transitiveJsResources("foo:bar:1.0")
+}
+```
+
+If you just want the resources but not the code, you can omit the `implementation` declaration.
+
+## Accessing the resources
+
+All resources from the dependencies are injected into the compilation phase as if they were present in `src/jsMain/resources/imported` directory.
+
+Therefore, if you depend on a library which has a file `index.css`, you can access it as `imported/index.css`.
