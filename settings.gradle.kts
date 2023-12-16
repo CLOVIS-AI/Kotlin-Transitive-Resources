@@ -22,10 +22,13 @@ pluginManagement {
 }
 
 plugins {
-	id("dev.opensavvy.conventions.settings") version "0.3.0"
+	id("dev.opensavvy.conventions.settings") version "0.3.2"
 }
 
 include(
+	"gradle:templates:template-app",
+	"gradle:templates:template-lib",
+
 	"shared",
 	"producer",
 	"consumer",
