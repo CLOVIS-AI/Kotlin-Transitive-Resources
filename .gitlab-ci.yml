@@ -116,6 +116,41 @@ check[iosArm64]:
   interruptible: true
 
 # endregion
+# Example: Kotlin Multiplatform
+
+example-kmp:build:
+  extends: [ .os.gradle ]
+  needs: [ os.version ]
+  stage: build
+
+  script:
+    - >
+      ./gradlew jsBrowserProductionWebpack
+      -p examples/kotlin-multiplatform --include-build ../..
+      --build-cache
+      -PappVersion=$project_version
+
+  after_script:
+    - mkdir -p website
+    - mv examples/kotlin-multiplatform/app/build/dist/js/productionExecutable/* website
+    - PREFIX="$CI_PROJECT_ROOT_NAMESPACE/"
+    - echo "URL=https://$CI_PROJECT_ROOT_NAMESPACE.$CI_PAGES_DOMAIN/-/${CI_PROJECT_PATH//$PREFIX}/-/jobs/$CI_JOB_ID/artifacts/website/index.html" >>deploy.env
+
+  artifacts:
+    paths:
+      - website
+    reports:
+      dotenv: deploy.env
+
+  environment:
+    name: review/$CI_COMMIT_REF_SLUG/example-kmp
+    url: $URL
+    deployment_tier: development
+
+  interruptible: true
+
+
+# endregion
 # region Publishing
 
 publish-maven:gitlab:
