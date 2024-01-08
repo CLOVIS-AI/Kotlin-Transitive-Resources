@@ -6,12 +6,14 @@ import opensavvy.gradle.resources.shared.ResourceAttributeType
 import org.gradle.api.Project
 import org.gradle.api.attributes.Category
 import org.gradle.api.attributes.LibraryElements
+import org.gradle.api.file.ArchiveOperations
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Sync
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.registering
+import org.gradle.kotlin.dsl.support.serviceOf
 
 internal fun Project.initializeForKotlin() {
 	dependencies {
@@ -36,8 +38,10 @@ internal fun Project.initializeForKotlin() {
 		group = RESOURCES_TASK_GROUP
 		description = "Downloads the declared Kotlin/JS transitive resources"
 
+		val archives = serviceOf<ArchiveOperations>()
+
 		val zips = transitiveJsResources.get().elements.map { elements ->
-			elements.map { zipTree(it) }
+			elements.map { archives.zipTree(it) }
 		}
 
 		from(zips)

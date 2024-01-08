@@ -116,7 +116,7 @@ check[iosArm64]:
   interruptible: true
 
 # endregion
-# Example: Kotlin Multiplatform
+# region Example: Kotlin Multiplatform
 
 example-kmp:build:
   extends: [ .os.gradle ]
@@ -128,6 +128,7 @@ example-kmp:build:
       ./gradlew jsBrowserProductionWebpack
       -p examples/kotlin-multiplatform --include-build ../..
       --build-cache
+      --configuration-cache
       -PappVersion=$project_version
 
   after_script:
@@ -148,7 +149,6 @@ example-kmp:build:
     deployment_tier: development
 
   interruptible: true
-
 
 # endregion
 # region Publishing
