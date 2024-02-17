@@ -23,6 +23,6 @@ dependencies {
 }
 
 kotlinJsResConsumer {
-	directory = null
+	directory = "./"
 }
 

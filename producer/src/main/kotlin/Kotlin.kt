@@ -15,6 +15,7 @@ import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.registering
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
 import java.lang.reflect.Field
 
@@ -26,8 +27,15 @@ internal fun Project.initializeForKotlin() {
 			return@configureEach
 
 		val archiveKotlinJsResources by tasks.registering(Zip::class) {
-			from(resources.sourceDirectories)
+			// also add commonMain as jsMain does not depend on it
+			val commonMainSourceSet = kotlinExtension.sourceSets.findByName("commonMain")
+			val jsSourceSets = dependentSourceSets()
+				.plus(commonMainSourceSet.dependentSourceSets())
 
+			for (jsSourceSet in jsSourceSets) {
+				from(jsSourceSet.resources.sourceDirectories)
+			}
+			
 			archiveClassifier.set("kjs-assets")
 		}
 
@@ -73,4 +81,16 @@ internal fun Project.initializeForKotlin() {
 				}
 		}
 	}
+}
+
+/**
+ * Recursively iterate through all module dependencies and return all
+ * KotlinSourceSets as a Set
+ */
+private fun KotlinSourceSet?.dependentSourceSets(): Set<KotlinSourceSet> {
+	if (this == null)
+		return emptySet()
+
+	return setOf(this)
+			.plus(dependsOn.flatMapTo(HashSet()) { it.dependentSourceSets() })
 }
