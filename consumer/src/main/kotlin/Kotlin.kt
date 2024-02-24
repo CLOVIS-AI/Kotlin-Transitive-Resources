@@ -15,7 +15,7 @@ import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.registering
 import org.gradle.kotlin.dsl.support.serviceOf
 
-internal fun Project.initializeForKotlin() {
+internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
 	dependencies {
 		attributesSchema {
 			attribute(ResourceAttribute)
@@ -45,7 +45,13 @@ internal fun Project.initializeForKotlin() {
 		}
 
 		from(zips)
-		into(extractionDirectory.map { it.dir("imported") })
+
+		val resDir by extension.directory
+		into(
+			resDir?.let { dir ->
+				extractionDirectory.map { it.dir(dir) }
+			} ?: extractionDirectory
+		)
 	}
 
 	tasks.withType(Copy::class.java) {
