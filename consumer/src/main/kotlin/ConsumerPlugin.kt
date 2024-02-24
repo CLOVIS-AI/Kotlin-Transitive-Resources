@@ -8,12 +8,8 @@ import org.gradle.kotlin.dsl.create
 class ConsumerPlugin : Plugin<Project> {
 	override fun apply(target: Project) {
 		val extension: ConsumerPluginExtension = target.extensions
-			.create(
-				"kotlinJsResConsumer",
-				ConsumerPluginExtension::class
-			).apply {
-				directory.convention("imported")
-			}
+			.create("kotlinJsResConsumer", ConsumerPluginExtension::class)
+			.apply { setConventions() }
 
 		target.pluginManager.withPlugin("org.jetbrains.kotlin.multiplatform") {
 			target.initializeForKotlin(extension)

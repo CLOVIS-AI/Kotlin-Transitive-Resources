@@ -5,7 +5,12 @@ import org.gradle.api.provider.Property
 interface ConsumerPluginExtension {
 	/**
 	 * The directory in which the imported resources are extracted to.
-	 * Set to null to use the resources base directory.
+	 * Set to "" to use the resources base directory.
+	 * The value is not checked for valid paths.
 	 */
-	val directory: Property<String?>
+	val directory: Property<String>
+}
+
+fun ConsumerPluginExtension.setConventions() {
+	directory.convention("imported")
 }

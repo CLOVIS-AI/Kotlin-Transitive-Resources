@@ -47,11 +47,11 @@ internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
 		from(zips)
 
 		val resDir by extension.directory
-		into(
-			resDir?.let { dir ->
-				extractionDirectory.map { it.dir(dir) }
-			} ?: extractionDirectory
-		)
+		if (resDir.isEmpty()) {
+			into(extractionDirectory)
+		} else {
+			into(extractionDirectory.map { it.dir(resDir) })
+		}
 	}
 
 	tasks.withType(Copy::class.java) {
