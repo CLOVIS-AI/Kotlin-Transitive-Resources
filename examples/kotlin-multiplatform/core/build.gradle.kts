@@ -12,4 +12,12 @@ kotlin {
 	js(IR) {
 		browser()
 	}
+	wasmJs()
+
+	sourceSets {
+		val webMain by creating
+
+		val wasmJsMain by getting { dependsOn(webMain) }
+		jsMain { dependsOn(webMain) }
+	}
 }
