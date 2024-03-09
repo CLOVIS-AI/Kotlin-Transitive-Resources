@@ -32,4 +32,5 @@ include(
 	"shared",
 	"producer",
 	"consumer",
+	"tests",
 )
