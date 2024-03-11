@@ -6,6 +6,7 @@ import opensavvy.prepared.compat.gradle.gradle
 import opensavvy.prepared.runner.kotest.PreparedSpec
 import opensavvy.prepared.suite.config.CoroutineTimeout
 import opensavvy.prepared.suite.prepared
+import kotlin.io.path.appendText
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createDirectory
 import kotlin.io.path.writeText
@@ -87,6 +88,56 @@ class ImportDirectoryTest : PreparedSpec({
 			println(result.output)
 
 			app().buildDir().resolve("kjs-transitive-assets/imported/test.txt").shouldExist()
+		}
+
+		test("Custom import directory") {
+			basicBuild()
+
+			app()
+			core()
+
+			coreResourceDir().resolve("test.txt").writeText("test-world")
+
+			app().buildKts().appendText("""
+				// this comment line is important (otherwise the concatenation with the existing config breaks)
+				kotlinJsResConsumer {
+					directory.set("a/custom/dir")
+				}
+			""".trimIndent())
+
+			val result = gradle.runner()
+				.withArguments("app:assemble")
+				.withPluginClasspath()
+				.build()
+
+			println(result.output)
+
+			app().buildDir().resolve("kjs-transitive-assets/a/custom/dir/test.txt").shouldExist()
+		}
+
+		test("Custom import directory: resource root without nesting") {
+			basicBuild()
+
+			app()
+			core()
+
+			coreResourceDir().resolve("test.txt").writeText("test-world")
+
+			app().buildKts().appendText("""
+				// this comment line is important (otherwise the concatenation with the existing config breaks)
+				kotlinJsResConsumer {
+					directory.set("")
+				}
+			""".trimIndent())
+
+			val result = gradle.runner()
+				.withArguments("app:assemble")
+				.withPluginClasspath()
+				.build()
+
+			println(result.output)
+
+			app().buildDir().resolve("kjs-transitive-assets/test.txt").shouldExist()
 		}
 	}
 
