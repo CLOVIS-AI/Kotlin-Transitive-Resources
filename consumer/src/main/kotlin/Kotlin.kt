@@ -7,6 +7,7 @@ import org.gradle.api.Project
 import org.gradle.api.attributes.Category
 import org.gradle.api.attributes.LibraryElements
 import org.gradle.api.file.ArchiveOperations
+import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Sync
 import org.gradle.kotlin.dsl.dependencies
@@ -44,7 +45,9 @@ internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
 			elements.map { archives.zipTree(it) }
 		}
 
-		from(zips)
+		from(zips) {
+			duplicatesStrategy = DuplicatesStrategy.WARN
+		}
 
 		val resDir by extension.directory
 		if (resDir.isEmpty()) {
