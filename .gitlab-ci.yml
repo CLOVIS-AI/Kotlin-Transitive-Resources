@@ -120,7 +120,7 @@ check[iosArm64]:
 # region Example: Kotlin Multiplatform
 
 example-kmp:build:
-  extends: [ .os.gradle ]
+  extends: [ .kotlin-js-browser ]
   needs: [ os.version ]
   stage: build
 
