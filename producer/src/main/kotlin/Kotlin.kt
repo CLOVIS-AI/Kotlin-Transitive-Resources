@@ -17,16 +17,20 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
+import org.jetbrains.kotlin.gradle.targets.js.dsl.KotlinJsTargetDsl
 import java.lang.reflect.Field
 
 internal fun Project.initializeForKotlin() {
 	val kotlin = kotlinExtension as KotlinMultiplatformExtension // cast is safe because this function is only called when the multiplatform is applied
 
 	val archiveKotlinJsResources by tasks.registering(Zip::class) {
-		val jsMainCompilation = kotlin.js().compilations.getByName("main")
+		val jsMainCompilations = kotlin.targets
+			.filterIsInstance<KotlinJsTargetDsl>()
+			.map { it.compilations.getByName("main") }
 
 		from(provider {
-			jsMainCompilation.allKotlinSourceSets.map { it.resources.sourceDirectories }
+			jsMainCompilations.flatMap { it.allKotlinSourceSets }
+				.map { it.resources.sourceDirectories }
 		})
 
 		archiveClassifier.set("kjs-assets")
