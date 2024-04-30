@@ -14,9 +14,12 @@ import org.gradle.api.tasks.bundling.Zip
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.registering
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinSingleTargetExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.targets
+import org.jetbrains.kotlin.gradle.plugin.KotlinTarget
 import java.lang.reflect.Field
 
 internal fun Project.initializeForKotlin() {
@@ -82,6 +85,13 @@ internal fun Project.initializeForKotlin() {
 		}
 	}
 }
+
+private val KotlinProjectExtension.targets: Iterable<KotlinTarget>
+	get() = when (this) {
+		is KotlinSingleTargetExtension<*> -> listOf(this.target)
+		is KotlinMultiplatformExtension -> targets
+		else -> error("Unexpected 'kotlin' extension $this")
+	}
 
 /**
  * Recursively iterate through all module dependencies and return all
