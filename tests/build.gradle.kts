@@ -14,3 +14,9 @@ dependencies {
 	testImplementation(libs.prepared)
 	testImplementation(libs.prepared.gradle)
 }
+
+tasks.configureEach {
+	if (name.startsWith("publish")) {
+		onlyIf("The :tests repository shouldn't be published") { false }
+	}
+}
