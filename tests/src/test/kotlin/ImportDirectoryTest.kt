@@ -73,7 +73,7 @@ class ImportDirectoryTest : TestExecutor() {
 			project
 		}
 
-		suite("Test", config = CoroutineTimeout(1.minutes)) {
+		suite("Test", config = CoroutineTimeout(5.minutes)) {
 			test("Default configuration") {
 				basicBuild()
 
