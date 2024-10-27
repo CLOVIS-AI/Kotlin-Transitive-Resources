@@ -3,6 +3,8 @@
 Shared code between the producer and the consumer.
 
 <a href="https://search.maven.org/search?q=dev.opensavvy.resources"><img src="https://img.shields.io/maven-central/v/dev.opensavvy.gradle.kotlin.resources/shared.svg?label=Maven%20Central"></a>
+<a href="https://opensavvy.dev/open-source/stability.html"><img src="https://badgen.net/static/Stability/alpha/purple"></a>
+<a href="https://javadoc.io/doc/dev.opensavvy.gradle.kotlin.resources/shared"><img src="https://badgen.net/static/Other%20versions/javadoc.io/blue"></a>
 
 > Although this project is built as a Gradle plugin, you should think of it as an internal library aimed for the development of the two other plugins. Unless you are making your own plugin based on ours, you should never need to depend on this module directly.
 
