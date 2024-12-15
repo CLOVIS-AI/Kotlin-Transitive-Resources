@@ -19,5 +19,5 @@ kotlin {
 }
 
 dependencies {
-	transitiveJsResources(project(":core"))
+	commonConsumedResources(project(":core"))
 }

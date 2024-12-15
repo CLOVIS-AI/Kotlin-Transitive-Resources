@@ -66,7 +66,7 @@ class ImportDirectoryTest : TestExecutor() {
 				}
 	
 				dependencies {
-					transitiveJsResources(project(":core"))
+					jsConsumedResources(project(":core"))
 				}
 			""".trimIndent())
 
@@ -89,7 +89,7 @@ class ImportDirectoryTest : TestExecutor() {
 
 				println(result.output)
 
-				app().buildDir().resolve("kjs-transitive-assets/imported/test.txt").shouldExist()
+				app().buildDir().resolve("transitive-resources-js/imported/test.txt").shouldExist()
 			}
 
 			test("Custom import directory") {
@@ -114,7 +114,7 @@ class ImportDirectoryTest : TestExecutor() {
 
 				println(result.output)
 
-				app().buildDir().resolve("kjs-transitive-assets/a/custom/dir/test.txt").shouldExist()
+				app().buildDir().resolve("transitive-resources-js/a/custom/dir/test.txt").shouldExist()
 			}
 
 			test("Custom import directory: resource root without nesting") {
@@ -139,7 +139,7 @@ class ImportDirectoryTest : TestExecutor() {
 
 				println(result.output)
 
-				app().buildDir().resolve("kjs-transitive-assets/test.txt").shouldExist()
+				app().buildDir().resolve("transitive-resources-js/test.txt").shouldExist()
 			}
 		}
 	}
