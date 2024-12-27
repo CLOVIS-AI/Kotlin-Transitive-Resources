@@ -49,7 +49,7 @@ kotlin {
 
 dependencies {
 	// declare a dependency on the resources
-	transitiveJsResources(project(":lib"))
+	jsConsumedResources(project(":lib"))
 }
 ```
 
@@ -69,7 +69,7 @@ kotlin {
 
 dependencies {
 	// declare a dependency on the resources
-	transitiveJsResources("foo:bar:1.0")
+	jsConsumedResources("foo:bar:1.0")
 }
 ```
 

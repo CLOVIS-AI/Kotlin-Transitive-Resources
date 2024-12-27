@@ -12,7 +12,11 @@ kotlin {
 	js(IR) {
 		browser()
 	}
-	wasmJs()
+	wasmJs {
+		browser()
+	}
+	jvm()
+	linuxX64()
 
 	sourceSets {
 		val webMain by creating
