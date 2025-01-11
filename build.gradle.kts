@@ -22,9 +22,9 @@ plugins {
 
 dependencies {
 	// List the 'library' projects
-	dokkatoo(projects.shared)
-	dokkatoo(projects.producer)
-	dokkatoo(projects.consumer)
+	dokka(projects.shared)
+	dokka(projects.producer)
+	dokka(projects.consumer)
 }
 
 // region Check the users of the project didn't forget to rename the group
