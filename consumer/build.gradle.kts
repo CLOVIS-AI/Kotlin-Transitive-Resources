@@ -12,7 +12,7 @@ dependencies {
 	implementation(projects.shared)
 
 	// We want to access things from the Kotlin plugin
-	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${opensavvyConventions.versions.kotlin.get()}")
+	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:${libsCommon.versions.kotlin.get()}")
 }
 
 gradlePlugin {
