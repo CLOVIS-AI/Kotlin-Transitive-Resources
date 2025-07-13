@@ -1,6 +1,7 @@
 plugins {
 	alias(opensavvyConventions.plugins.base)
 	alias(opensavvyConventions.plugins.plugin)
+	alias(libsCommon.plugins.testBalloon)
 }
 
 dependencies {
@@ -11,8 +12,8 @@ dependencies {
 		because("Without it, any usage of any symbol from the Kotlin plugin results in test projects not being configured at all.")
 	}
 
-	testImplementation(libs.prepared)
-	testImplementation(libs.prepared.gradle)
+	testImplementation(libsCommon.opensavvy.prepared.testBalloon)
+	testImplementation(libsCommon.opensavvy.prepared.gradle)
 }
 
 tasks.configureEach {
