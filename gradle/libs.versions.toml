@@ -1,12 +1,9 @@
 # List of dependencies of the project
 
 [versions]
-prepared = "1.0.0-rc.2"             # https://gitlab.com/opensavvy/prepared/-/releases
 
 [plugins]
 
 [libraries]
-prepared = { module = "dev.opensavvy.prepared:runner-kotlin-test", version.ref = "prepared" }
-prepared-gradle = { module = "dev.opensavvy.prepared:compat-gradle", version.ref = "prepared" }
 
 [bundles]
