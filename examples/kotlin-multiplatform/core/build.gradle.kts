@@ -17,6 +17,7 @@ kotlin {
 	}
 	jvm()
 	linuxX64()
+	linuxArm64()
 
 	sourceSets {
 		val webMain by creating

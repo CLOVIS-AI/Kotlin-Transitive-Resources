@@ -10,6 +10,7 @@ import org.gradle.api.component.AdhocComponentWithVariants
 import org.gradle.api.tasks.bundling.Zip
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMetadataTarget
 import java.lang.reflect.Field
 
@@ -45,6 +46,11 @@ internal fun Project.initializeForKotlin() {
 				attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class.java, Category.LIBRARY))
 				attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements::class.java, LibraryElements.RESOURCES))
 				attribute(Attribute.of("org.jetbrains.kotlin.platform.type", String::class.java), target.platformType.name)
+				
+				if (target.platformType == KotlinPlatformType.native) {
+					val nativeTarget = Attribute.of("org.jetbrains.kotlin.native.target", String::class.java)
+					attribute(nativeTarget, target.attributes.getAttribute(nativeTarget)!!)
+				}
 			}
 		}
 
