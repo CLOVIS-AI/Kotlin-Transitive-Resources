@@ -13,8 +13,6 @@ Extracts Kotlin/JS resources from other projects and injects them into the curre
 Currently, this plugin requires the [Kotlin Multiplatform plugin](https://kotlinlang.org/docs/multiplatform-dsl-reference.html).
 Otherwise, it does nothing.
 
-Because this plugin only expose Kotlin/JS resources (other platforms' artifacts are automatically exposed by the Kotlin plugin), you will need to declare a JS target for this plugin to do anything.
-
 ```kotlin
 // build.gradle.kts
 plugins {
@@ -49,7 +47,7 @@ kotlin {
 
 dependencies {
 	// declare a dependency on the resources
-	jsConsumedResources(project(":lib"))
+	commonConsumedResources(project(":lib"))
 }
 ```
 
@@ -69,14 +67,16 @@ kotlin {
 
 dependencies {
 	// declare a dependency on the resources
-	jsConsumedResources("foo:bar:1.0")
+	commonConsumedResources("foo:bar:1.0")
 }
 ```
+
+You can also depend on the resources for only a single platform, for example with the scope `jsConsumedResources` instead of `commonConsumedResources`.
 
 If you just want the resources but not the code, you can omit the `implementation` declaration.
 
 ## Accessing the resources
 
-All resources from the dependencies are injected into the compilation phase as if they were present in `src/jsMain/resources/imported` directory.
+All resources from the dependencies are injected into the compilation phase as if they were present in `src/<platform>Main/resources/imported` directory.
 
 Therefore, if you depend on a library which has a file `index.css`, you can access it as `imported/index.css`.

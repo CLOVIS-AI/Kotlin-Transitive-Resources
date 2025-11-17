@@ -13,8 +13,6 @@ Exposes Kotlin/JS resources to other projects.
 Currently, this plugin requires the [Kotlin Multiplatform plugin](https://kotlinlang.org/docs/multiplatform-dsl-reference.html).
 Otherwise, it does nothing.
 
-Because this plugin only expose Kotlin/JS resources (other platforms' artifacts are automatically exposed by the Kotlin plugin), you will need to declare a JS target for this plugin to do anything.
-
 ```kotlin
 // build.gradle.kts
 plugins {
@@ -28,8 +26,6 @@ kotlin {
 	}
 }
 ```
-
-> **Important note.** Currently, the plugin only works if the JS target's source set has the default name (`jsMain`/`jsTest`).
 
 That's all! Now, you can use the Consumer plugin in your other projects that are part of the same build.
 
