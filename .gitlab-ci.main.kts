@@ -167,6 +167,7 @@ gitlabCi {
 		script {
 			gradlew.tasks(
 				"jsBrowserProductionWebpack",
+				"publishToMavenLocal",
 				"-p examples/kotlin-multiplatform",
 				"--include-build ../..",
 				"--build-cache",
