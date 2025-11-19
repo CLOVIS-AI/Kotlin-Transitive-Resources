@@ -30,7 +30,7 @@ internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
 		}
 	}
 
-	for (platform in KotlinPlatformType.values()) {
+	for (platform in KotlinPlatformType.entries) {
 		configurations.register("${platform.name}ConsumedResources") {
 			if (platform != KotlinPlatformType.common) {
 				extendsFrom(configurations.named("commonConsumedResources").get())
