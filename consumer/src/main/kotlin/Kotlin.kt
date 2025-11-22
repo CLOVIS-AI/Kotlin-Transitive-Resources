@@ -26,10 +26,11 @@ internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
 			attribute(ResourceAttribute)
 			attribute(Category.CATEGORY_ATTRIBUTE)
 			attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE)
+			attribute(Attribute.of("org.jetbrains.kotlin.native.target", String::class.java))
 		}
 	}
 
-	for (platform in KotlinPlatformType.values()) {
+	for (platform in KotlinPlatformType.entries) {
 		configurations.register("${platform.name}ConsumedResources") {
 			if (platform != KotlinPlatformType.common) {
 				extendsFrom(configurations.named("commonConsumedResources").get())
@@ -55,7 +56,33 @@ internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
 
 		logger.info("Configuring resource consumption for target $target…")
 
-		val archiveConfiguration = configurations.named("${target.platformType.name}ConsumedResources")
+		// For native, we need a per-target resolvable configuration so Gradle can
+		// disambiguate between several native produced variants (linuxX64, macosX64, …).
+		// Keep the platform-level configuration for dependency declarations and
+		// create a child configuration that adds the native target attribute.
+		val archiveConfiguration = when (target.platformType) {
+			KotlinPlatformType.native -> {
+				val base = configurations.named("${target.platformType.name}ConsumedResources").get()
+				configurations.maybeCreate("${targetName}ConsumedResources").apply {
+					extendsFrom(base)
+					// Mirror the attributes from the base configuration and add the native target
+					attributes {
+						attribute(ResourceAttribute, ResourceAttributeType.Regular)
+						attribute(Category.CATEGORY_ATTRIBUTE, objects.named(Category::class.java, Category.LIBRARY))
+						attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE, objects.named(LibraryElements::class.java, LibraryElements.RESOURCES))
+						attribute(Attribute.of("org.jetbrains.kotlin.platform.type", String::class.java), target.platformType.name)
+
+						// Align on the exact native target, matching what the producer publishes
+						val nativeTarget = Attribute.of("org.jetbrains.kotlin.native.target", String::class.java)
+						val value = target.attributes.getAttribute(nativeTarget)
+						if (value != null) attribute(nativeTarget, value)
+					}
+				}
+				configurations.named("${targetName}ConsumedResources")
+			}
+
+			else -> configurations.named("${target.platformType.name}ConsumedResources")
+		}
 
 		val extractionDirectory = layout.buildDirectory.dir("transitive-resources-$targetName")
 

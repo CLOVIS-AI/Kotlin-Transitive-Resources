@@ -13,6 +13,12 @@ import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMetadataTarget
 import java.lang.reflect.Field
+import kotlin.io.path.createTempFile
+
+private val markerFile by lazy {
+	createTempFile(prefix = "opensavvy-gradle-resources-js-empty-marker").toFile()
+		.also { it.deleteOnExit() }
+}
 
 internal fun Project.initializeForKotlin() {
 	val kotlin = kotlinExtension as KotlinMultiplatformExtension // cast is safe because this function is only called when the multiplatform is applied
@@ -35,6 +41,15 @@ internal fun Project.initializeForKotlin() {
 			)
 
 			archiveClassifier.set("resources-$targetName")
+
+			// Force the creation of the archive, even if empty, by declaring a file that is always there but always excluded.
+			// https://discuss.gradle.org/t/force-creation-of-empty-archive/50741
+			from(markerFile)
+			eachFile {
+				if (file == markerFile) {
+					exclude()
+				}
+			}
 		}
 
 		val archiveConfiguration = configurations.register("${targetName}ProducedResources") {
