@@ -5,7 +5,7 @@
 [versions]
 
 # https://kotlinlang.org/docs/releases.html#release-details
-kotlin = "2.3.0"
+kotlin = "2.3.10"
 
 # https://github.com/google/ksp/releases
 ksp = "2.3.4"
@@ -126,4 +126,5 @@ kotest = [
 	"opensavvy-prepared-kotest",
 	"kotest-framework",
 	"kotest-assertions",
+	"kotlin-test", # Force the Kotlin stdlib to match the KGP version, important on JS
 ]
