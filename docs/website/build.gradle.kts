@@ -5,5 +5,7 @@ plugins {
 
 dependencies {
 	// List the 'library' projects
-	// dokka(projects.core)
+	dokka(projects.shared)
+	dokka(projects.producer)
+	dokka(projects.consumer)
 }
