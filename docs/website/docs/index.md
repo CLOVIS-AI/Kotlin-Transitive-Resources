@@ -96,7 +96,7 @@ dependencies {
 1. This is a regular dependency on the library `foo:bar:1.0`. This is not necessary: if you remove this line, you depend only on that library's static files and not its code.
 2. Declares a dependency on the static files of the library `foo:bar:1.0`. Instead of `commonConsumedResources`, you can also depend only on a single platform, for example with `jsConsumedResources`.
 
-The resources will automatically be copied as if they were present in your `src/commonMain/resources/imported` folder. Therefore, if you depend on a library which has a file `index.css`, you can access it as `imported/index.css`. The name of the directory [is configurable](https://kotlin-resources.opensavvy.dev/api-docs/consumer/opensavvy.gradle.resources.consumer/-consumer-plugin-extension/directory.html).
+The resources will automatically be copied as if they were present in your `src/commonMain/resources/imported` folder. Therefore, if you depend on a library which has a file `index.css`, you can access it as `imported/index.css`. The name of the directory [is configurable](api/consumer/opensavvy.gradle.resources.consumer/-consumer-plugin-extension/index.md#directory).
 
 ***
 
