@@ -1,17 +1,11 @@
 package opensavvy.gradle.resources.test
 
-import io.kotest.matchers.paths.shouldExist
 import opensavvy.prepared.compat.gradle.buildKts
 import opensavvy.prepared.compat.gradle.gradle
-import opensavvy.prepared.runner.kotlin.TestExecutor
 import opensavvy.prepared.runner.testballoon.preparedSuite
-import opensavvy.prepared.suite.SuiteDsl
 import opensavvy.prepared.suite.config.CoroutineTimeout
 import opensavvy.prepared.suite.prepared
-import kotlin.io.path.appendText
-import kotlin.io.path.createDirectories
-import kotlin.io.path.createDirectory
-import kotlin.io.path.writeText
+import kotlin.io.path.*
 import kotlin.time.Duration.Companion.minutes
 
 val ImportDirectoryTest by preparedSuite {
@@ -88,7 +82,7 @@ val ImportDirectoryTest by preparedSuite {
 
 			println(result.output)
 
-			app().buildDir().resolve("transitive-resources-js/imported/test.txt").shouldExist()
+			check(app().buildDir().resolve("transitive-resources-js/imported/test.txt").exists())
 		}
 
 		test("Custom import directory") {
@@ -113,7 +107,7 @@ val ImportDirectoryTest by preparedSuite {
 
 			println(result.output)
 
-			app().buildDir().resolve("transitive-resources-js/a/custom/dir/test.txt").shouldExist()
+			check(app().buildDir().resolve("transitive-resources-js/a/custom/dir/test.txt").exists())
 		}
 
 		test("Custom import directory: resource root without nesting") {
@@ -138,7 +132,7 @@ val ImportDirectoryTest by preparedSuite {
 
 			println(result.output)
 
-			app().buildDir().resolve("transitive-resources-js/test.txt").shouldExist()
+			check(app().buildDir().resolve("transitive-resources-js/test.txt").exists())
 		}
 	}
 }
