@@ -11,23 +11,18 @@ import org.gradle.api.file.ArchiveOperations
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Sync
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.provideDelegate
-import org.gradle.kotlin.dsl.support.serviceOf
+import org.gradle.internal.extensions.core.serviceOf
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinMetadataTarget
 
 internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
-	dependencies {
-		attributesSchema {
-			attribute(ResourceAttribute)
-			attribute(Category.CATEGORY_ATTRIBUTE)
-			attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE)
-			attribute(Attribute.of("org.jetbrains.kotlin.native.target", String::class.java))
-		}
+	dependencies.attributesSchema {
+		attribute(ResourceAttribute)
+		attribute(Category.CATEGORY_ATTRIBUTE)
+		attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE)
+		attribute(Attribute.of("org.jetbrains.kotlin.native.target", String::class.java))
 	}
 
 	for (platform in KotlinPlatformType.entries) {
@@ -100,7 +95,7 @@ internal fun Project.initializeForKotlin(extension: ConsumerPluginExtension) {
 				duplicatesStrategy = DuplicatesStrategy.WARN
 			}
 
-			val resDir by extension.directory
+			val resDir = extension.directory.get()
 			if (resDir.isEmpty()) {
 				into(extractionDirectory)
 			} else {

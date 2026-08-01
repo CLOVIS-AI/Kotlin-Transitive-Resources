@@ -15,7 +15,7 @@ dependencies {
 		because("Without it, any usage of any symbol from the Kotlin plugin results in test projects not being configured at all.")
 	}
 
-	testImplementation(libsCommon.opensavvy.prepared.testBalloon)
+	testImplementation(libsCommon.bundles.testBalloon)
 	testImplementation(libsCommon.opensavvy.prepared.gradle)
 }
 
